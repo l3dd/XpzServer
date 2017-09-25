@@ -286,3 +286,10 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+#cake script
+/build/nuget.exe
+/build/Cake
+/build/*.md5sum
+
+tools

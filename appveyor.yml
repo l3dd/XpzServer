@@ -1,0 +1,17 @@
+image: Visual Studio 2017  
+# or use Visual Studio 2015 for VSIXv2
+
+# Build script
+build_script:  
+  - ps: .\build.ps1 -Target "Build"
+  # Make sure the path above is correct
+
+# Branches to build
+branches:  
+  # Whitelist
+  only:
+    - develop
+    - master
+    - /r/.*/
+    - /release/.*/
+    - /hotfix/.*/

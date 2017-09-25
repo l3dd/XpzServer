@@ -1,0 +1,6 @@
+assembly-versioning-scheme: MajorMinorPatch
+branches:
+  development:
+    tag: beta
+ignore:
+  sha: []

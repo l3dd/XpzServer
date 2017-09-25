@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andoria.Server", ".\Andoria.Server\Andoria.Server.csproj", "{DABAA8CF-B7A1-4DEE-BC7D-0BAC8E823BBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andoria.Server.Tests", ".\Andoria.Server.Tests\Andoria.Server.Tests.csproj", "{52713FA1-8172-417C-9F05-AFD1DA5BD9EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DABAA8CF-B7A1-4DEE-BC7D-0BAC8E823BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABAA8CF-B7A1-4DEE-BC7D-0BAC8E823BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABAA8CF-B7A1-4DEE-BC7D-0BAC8E823BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABAA8CF-B7A1-4DEE-BC7D-0BAC8E823BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52713FA1-8172-417C-9F05-AFD1DA5BD9EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52713FA1-8172-417C-9F05-AFD1DA5BD9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52713FA1-8172-417C-9F05-AFD1DA5BD9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52713FA1-8172-417C-9F05-AFD1DA5BD9EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8862163-EA3C-4C1C-BC71-232F40E9566F}
+	EndGlobalSection
+EndGlobal
