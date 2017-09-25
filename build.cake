@@ -1,18 +1,23 @@
 #tool "nuget:?package=GitVersion.CommandLine"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 
-var target          = Argument("target", "Default");
-var configuration   = Argument("Configuration", "Release");
-var artifactsDir    = Directory("./artifacts");
-var solution        = "./src/Andoria.sln";
-GitVersion versionInfo = null;
-
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./out/bin") + Directory(configuration);
+var target          = Argument("target", "Default");
+var configuration   = Argument("Configuration", "Release");
+
+
+var OutputDirectory     = Directory("./out/");
+var SrcDirectory        = Directory("./src/");
+var BuildDirectory      = OutputDirectory + Directory("bin/");
+var ArtifactDirectory   = OutputDirectory + Directory("Artifacts/");
+
+var BuildLogFile        = ArtifactDirectory.Path + "/build.log";
+var SolutionFile        = SrcDirectory.Path + "/Andoria.sln";
+GitVersion versionInfo = null;
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -21,7 +26,7 @@ var buildDir = Directory("./out/bin") + Directory(configuration);
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectory(buildDir);
+    CleanDirectory(OutputDirectory);
 });
 
 Task("SetVersionInfo")
@@ -31,40 +36,46 @@ Task("SetVersionInfo")
         versionInfo = GitVersion(new GitVersionSettings {
             RepositoryPath = "."
     });
+
+    Information("Calculated version is " + versionInfo.NuGetVersionV2 );
 });
 
 Task("RestorePackages")
     .IsDependentOn("SetVersionInfo")
     .Does(() =>
 {
-    DotNetCoreRestore(solution);
+    DotNetCoreRestore(SolutionFile);
 });
 
 Task("Restore-NuGet-Packages")
     .IsDependentOn("SetVersionInfo")
     .Does(() =>
 {
-    DotNetCoreRestore(solution);
+    DotNetCoreRestore(SolutionFile);
 });
 
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    var buildSettings = new DotNetCoreBuildSettings
+    var dotnetCoreBuildSettings = new DotNetCoreBuildSettings
      {
-         Configuration = configuration,
-         OutputDirectory = buildDir,
-         ArgumentCustomization = args => args.Append("/p:SemVer=" + versionInfo.NuGetVersionV2)
-     };
+        Configuration = configuration,
+        OutputDirectory = BuildDirectory,
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+      } ;
+
+    dotnetCoreBuildSettings.MSBuildSettings.TreatAllWarningsAs = MSBuildTreatAllWarningsAs.Error;
+    dotnetCoreBuildSettings.MSBuildSettings.FileLoggers.Add(new MSBuildFileLoggerSettings { LogFile = BuildLogFile });
+    dotnetCoreBuildSettings.MSBuildSettings.Properties.Add("SemVer", new List<string> { versionInfo.NuGetVersionV2 });
 
     // Use MSBuild
-    DotNetCoreBuild("./src/Andoria.sln", buildSettings);
-});
-Task("Default")
-  .Does(() =>
-{
-  Information("Hello World!");
-});
+    DotNetCoreBuild(SolutionFile, dotnetCoreBuildSettings);
+}).OnError(ex => {
+    Error("Build Failed :(");
+    throw ex;
+}); 
+
+Task("Default").IsDependentOn("Build");
 
 RunTarget(target);

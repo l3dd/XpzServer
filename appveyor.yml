@@ -10,7 +10,7 @@ build_script:
 branches:  
   # Whitelist
   only:
-    - develop
+    - dev
     - master
     - /r/.*/
     - /release/.*/
