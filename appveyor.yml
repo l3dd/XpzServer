@@ -6,6 +6,8 @@ build_script:
   - ps: .\build.ps1 -Target "Build"
   # Make sure the path above is correct
 
+test: off
+
 # Branches to build
 branches:  
   # Whitelist
